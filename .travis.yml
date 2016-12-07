@@ -1,0 +1,27 @@
+sudo: required
+
+language: bash
+
+services:
+  - docker
+
+before_script:
+  - docker -v
+  - docker-compose -v
+  - docker-compose build tests
+
+script:
+  - >
+    docker-compose run
+    --rm
+    -e EX_GD_USERNAME=$EX_GD_USERNAME
+    -e EX_GD_PASSWORD=$EX_GD_PASSWORD
+    tests
+after_success:
+  - docker images
+
+deploy:
+  provider: script
+  script: ./deploy.sh
+  on:
+    tags: true

@@ -1,0 +1,10 @@
+version: "2"
+
+services:
+
+  tests:
+    build: .
+    image: keboola/gooddata-extractor
+    tty: true
+    stdin_open: true
+    command: ./tests.sh
