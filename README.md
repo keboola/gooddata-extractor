@@ -2,8 +2,6 @@
 
 KBC Docker app for extracting reports from GoodData.
 
-You can either directly specify GoodData credentials or id of existing GoodData writer whose credentials will be used.
-
 ## Status
 
 [![Build Status](https://travis-ci.org/keboola/gooddata-extractor.svg)](https://travis-ci.org/keboola/gooddata-extractor) [![Code Climate](https://codeclimate.com/github/keboola/gooddata-extractor/badges/gpa.svg)](https://codeclimate.com/github/keboola/gooddata-extractor)
@@ -11,10 +9,12 @@ You can either directly specify GoodData credentials or id of existing GoodData 
 
 ## Configuration
 
+You can either directly specify GoodData credentials or id of existing GoodData writer whose credentials will be used.
+
 - **parameters**:
     - **writer_id** - Id of existing writer whose credentials will be used
-    - **username** - GoodData credentials
-    - **password** - GoodData credentials (or **#password** if it is encrypted by KBC)
+    - **username** - GoodData username
+    - **#password** - GoodData password, encrypted by KBC
     - **bucket** - Name of bucket where the data will be saved
     - **reports** - Array of report uris to download
     
@@ -63,7 +63,7 @@ If you want to run this app standalone:
     parameters:
       username:
       password:
-      bucket: in.c-ex-adwords
+      bucket: in.c-ex-gooddata
       reports:
         ...
     ```

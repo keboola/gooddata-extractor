@@ -1,45 +1,28 @@
 {
-	"name": "keboola/gooddata-extractor-bundle",
-	"type": "symfony-bundle",
-	"description": "Keboola GoodData Extractor Bundle",
+	"name": "keboola/gooddata-extractor",
+	"description": "Keboola GoodData Extractor for KBC docker",
 	"keywords": ["keboola", "gooddata", "extractor"],
 	"authors": [
 		{
-			"name": "Miroslav Čillík",
-			"email": "miro@keboola.com"
+			"name": "Jakub Matejka",
+			"email": "jakub@keboola.com"
 		}
 	],
-	"repositories": [
-	],
 	"require": {
-		"php": ">=5.4",
-        "keboola/syrup": "~2.3",
-		"keboola/gooddata-writer-php-client": "~1.9.4"
+		"php": ">=5.6",
+		"keboola/csv": "~1.1.3",
+		"symfony/yaml": "~2.6.3",
+		"keboola/php-temp": "0.1.3",
+		"keboola/gooddata-php-client": "^2.2",
+		"keboola/storage-api-client": "^4.18"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "3.7.*"
-	},
-	"scripts": {
-	  "post-install-cmd": [
-		"Keboola\\Syrup\\DeploymentHandler\\ScriptHandler::getParameters",
-		"Keboola\\Syrup\\DeploymentHandler\\ScriptHandler::getSharedParameters",
-		"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
-	  ],
-	  "post-update-cmd": [
-        "Keboola\\Syrup\\DeploymentHandler\\ScriptHandler::getParameters",
-        "Keboola\\Syrup\\DeploymentHandler\\ScriptHandler::getSharedParameters",
-		"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-		"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache"
-	  ]
+		"phpunit/phpunit": "~5.0"
 	},
 	"minimum-stability": "stable",
 	"autoload": {
-		"psr-0": { "Keboola\\GoodData\\ExtractorBundle": "" }
-	},
-	"target-dir": "Keboola/GoodData/ExtractorBundle",
-	"extra": {
-		"symfony-app-dir": "vendor/keboola/syrup/app",
-		"symfony-web-dir": "vendor/keboola/syrup/web",
-	  	"syrup-app-name": "ex-gooddata"
+		"psr-4": {
+			"Keboola\\": "src/Keboola/"
+		}
 	}
 }
