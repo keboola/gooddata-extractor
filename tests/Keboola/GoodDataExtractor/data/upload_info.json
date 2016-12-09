@@ -1,0 +1,28 @@
+{
+    "dataSetSLIManifestList" : [
+        {
+            "dataSetSLIManifest": {
+                "file": "data.csv",
+                "dataSet": "dataset.categories",
+                "parts": [
+                    {
+                        "columnName": "Id",
+                        "populates": [
+                            "label.categories.id"
+                        ],
+                        "mode": "FULL",
+                        "referenceKey": 1
+                    },
+                    {
+                        "columnName": "Name",
+                        "populates": [
+                            "label.categories.name"
+                        ],
+                        "mode": "FULL",
+                        "referenceKey": 1
+                    }
+                ]
+            }
+        }
+    ]
+}

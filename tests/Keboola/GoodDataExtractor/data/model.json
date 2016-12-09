@@ -1,0 +1,51 @@
+{
+    "projectModel": {
+        "datasets": [
+            {
+                "dataset": {
+                    "identifier": "dataset.categories",
+                    "title": "Categories",
+                    "anchor": {
+                        "attribute": {
+                            "identifier": "attr.categories.id",
+                            "title": "Id",
+                            "folder": "Categories",
+                            "deprecated": false,
+                            "defaultLabel": "label.categories.id",
+                            "labels": [
+                                {
+                                    "label": {
+                                        "identifier": "label.categories.id",
+                                        "title": "Id",
+                                        "type": "GDC.text"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "attributes": [
+                        {
+                            "attribute": {
+                                "identifier": "attr.categories.name",
+                                "title": "Name",
+                                "defaultLabel": "label.categories.name",
+                                "folder": "Categories",
+                                "deprecated": false,
+                                "labels": [
+                                    {
+                                        "label": {
+                                            "identifier": "label.categories.name",
+                                            "title": "Name",
+                                            "type": "GDC.text"
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "dateDimensions": []
+    }
+}
