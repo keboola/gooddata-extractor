@@ -5,8 +5,6 @@
  * @author Jakub Matejka <jakub@keboola.com>
  */
 
-use Symfony\Component\Yaml\Yaml;
-
 set_error_handler(
     function ($errno, $errstr, $errfile, $errline, array $errcontext) {
         if (0 === error_reporting()) {
@@ -25,7 +23,7 @@ if (!isset($arguments['data'])) {
     print "Data folder not set.";
     exit(1);
 }
-$config = Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
+$config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
 
 if (!isset($config['parameters']['writer_id'])) {
     if (!isset($config['parameters']['username']) || !isset($config['parameters']['#password'])) {
@@ -63,19 +61,22 @@ if (!file_exists("{$arguments['data']}/out/tables")) {
 
 try {
     if (isset($config['parameters']['writer_id'])) {
-        $credentials = new \Keboola\GoodDataExtractor\WriterCredentials(
-           new \Keboola\StorageApi\Components(
-               new \Keboola\StorageApi\Client([
-                   'url' => KBC_URL,
-                   'token' => KBC_TOKEN
-               ])
-           )
+        $writer = new \Keboola\GoodDataExtractor\Writer(
+            new \Keboola\GoodDataExtractor\WriterClient(),
+            KBC_TOKEN
         );
-        $creds = $credentials->get($config['parameters']['writer_id']);
+        $creds = $writer->getUserCredentials($config['parameters']['writer_id']);
+        $username = $creds['username'];
+        $password = $creds['password'];
+    } else {
+        $username = $config['parameters']['username'];
+        $password = $config['parameters']['#password'];
     }
     $app = new \Keboola\GoodDataExtractor\Extractor(
+        new \Keboola\GoodData\Client(),
         $username,
         $password,
+        "{$arguments['data']}/out/tables",
         $config['parameters']['bucket']
     );
     $app->extract($config['parameters']['reports']);

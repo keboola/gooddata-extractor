@@ -47,6 +47,10 @@ Or:
 }
 ```
 
+## Output
+
+Extraction saves each report to one table in a specified bucket and names it with id of the report in GoodData.
+
 
 ## Installation
 
@@ -73,7 +77,10 @@ If you want to run this app standalone:
 
 ## Testing
 
-Run `phpunit` with these env variables set from previous steps:
+For integration testing you have to prepare a project in GoodData. Please note that all data and reports in the project will be deleted. 
+
+Run `phpunit` with these env variables
 
 - **EX_GD_USERNAME**
 - **EX_GD_PASSWORD**
+- **EX_GD_PROJECT** - GoodData project id
