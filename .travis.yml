@@ -16,6 +16,7 @@ script:
     --rm
     -e EX_GD_USERNAME=$EX_GD_USERNAME
     -e EX_GD_PASSWORD=$EX_GD_PASSWORD
+    -e EX_GD_PROJECT=$EX_GD_PROJECT
     tests
 after_success:
   - docker images
