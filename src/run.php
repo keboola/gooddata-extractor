@@ -32,11 +32,6 @@ if (!isset($config['parameters']['writer_id'])) {
     }
 }
 
-if (!isset($config['parameters']['bucket'])) {
-    print("Missing parameter 'bucket'");
-    exit(1);
-}
-
 if (!isset($config['parameters']['reports'])) {
     print("Missing parameter 'reports'");
     exit(1);
@@ -76,8 +71,7 @@ try {
         new \Keboola\GoodData\Client(),
         $username,
         $password,
-        "{$arguments['data']}/out/tables",
-        $config['parameters']['bucket']
+        "{$arguments['data']}/out/tables"
     );
     $app->extract($config['parameters']['reports']);
 

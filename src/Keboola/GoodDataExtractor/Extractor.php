@@ -14,14 +14,12 @@ class Extractor
     /** @var Client  */
     protected $gdClient;
     protected $folder;
-    protected $bucket;
 
-    public function __construct(Client $gdClient, $username, $password, $folder, $bucket)
+    public function __construct(Client $gdClient, $username, $password, $folder)
     {
         $this->gdClient = $gdClient;
         $this->gdClient->login($username, $password);
         $this->folder = $folder;
-        $this->bucket = $bucket;
     }
 
     public function extract(array $reports)
@@ -32,7 +30,7 @@ class Extractor
             }
             $pid = explode('/', substr($uri, 8))[0];
             $reportId = substr($uri, strrpos($uri, '/') + 1);
-            $filename = "{$this->folder}/{$this->bucket}.{$reportId}.csv";
+            $filename = "{$this->folder}/{$reportId}.csv";
 
             $this->download($pid, $uri, $filename);
         }

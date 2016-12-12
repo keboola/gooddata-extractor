@@ -33,8 +33,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             new Client(),
             EX_GD_USERNAME,
             EX_GD_PASSWORD,
-            $dir,
-            'bucket'
+            $dir
         );
         $app->extract([$report1, $report2]);
 
@@ -42,13 +41,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $reportId2 = substr($report2, strrpos($report2, '/') + 1);
         $sourceFile = file(__DIR__.'/data/data.csv');
 
-        $this->assertFileExists("$dir/bucket.$reportId1.csv");
-        $file1 = file("$dir/bucket.$reportId1.csv");
+        $this->assertFileExists("$dir/$reportId1.csv");
+        $file1 = file("$dir/$reportId1.csv");
         $this->assertCount(count($sourceFile), $file1);
         $this->assertEquals(trim($sourceFile[0]), trim($file1[0]));
         $this->assertEquals(trim($sourceFile[5]), trim($file1[5]));
-        $this->assertFileExists("$dir/bucket.$reportId2.csv");
-        $file2 = file("$dir/bucket.$reportId2.csv");
+        $this->assertFileExists("$dir/$reportId2.csv");
+        $file2 = file("$dir/$reportId2.csv");
         $this->assertCount(count($sourceFile), $file2);
         $this->assertEquals(trim($sourceFile[0]), trim($file2[0]));
         $this->assertEquals(trim($sourceFile[4]), trim($file2[4]));
