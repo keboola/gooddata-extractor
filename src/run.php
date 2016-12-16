@@ -55,7 +55,7 @@ if (!file_exists("{$arguments['data']}/out/tables")) {
 }
 
 try {
-    if (isset($config['parameters']['writer_id'])) {
+    if (isset($config['parameters']['writer_id']) && !empty($config['parameters']['writer_id'])) {
         $writer = new \Keboola\GoodDataExtractor\Writer(
             new \Keboola\GoodDataExtractor\WriterClient(),
             KBC_TOKEN
