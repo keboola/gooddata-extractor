@@ -64,8 +64,7 @@ class WriterClient
         } catch (ClientException $e) {
             throw new Exception($e->getResponse()->getStatusCode() == 401
                 ? 'Invalid StorageApi Token'
-                : 'User Error from StorageApi: ' . $e->getResponse()->getBody()
-            );
+                : 'User Error from StorageApi: ' . $e->getResponse()->getBody());
         }
     }
 }
