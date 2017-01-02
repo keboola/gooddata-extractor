@@ -6,6 +6,7 @@
  */
 namespace Keboola\GoodDataExtractor;
 
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use Psr\Http\Message\RequestInterface;
@@ -53,11 +54,18 @@ class WriterClient
 
     public function get($url, $token)
     {
-        $res = $this->client->request('GET', $url, [
-            'headers' => [
-                'X-StorageApi-Token' => $token
-            ]
-        ]);
-        return json_decode($res->getBody(), true);
+        try {
+            $res = $this->client->request('GET', $url, [
+                'headers' => [
+                    'X-StorageApi-Token' => $token
+                ]
+            ]);
+            return json_decode($res->getBody(), true);
+        } catch (ClientException $e) {
+            throw new Exception($e->getResponse()->getStatusCode() == 401
+                ? 'Invalid StorageApi Token'
+                : 'User Error from StorageApi: ' . $e->getResponse()->getBody()
+            );
+        }
     }
 }
