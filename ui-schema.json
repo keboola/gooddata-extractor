@@ -21,6 +21,12 @@
     }
   ],
   "properties": {
+    "host": {
+      "type": "string",
+      "default": "secure.gooddata.com",
+      "title": "GoodData Host",
+      "description": "secure.gooddata.com, keboola.eu.gooddata.com, or custom host"
+    },
     "writer_id": {
       "type": "string",
       "title": "GoodData Writer",
