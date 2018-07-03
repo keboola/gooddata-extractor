@@ -14,25 +14,30 @@ use Keboola\GoodDataExtractor\Extractor;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
-    public function testIntegration()
+    /**
+     * @dataProvider hostDataProvider
+     */
+    public function testIntegration(string $hostName, string $username, string $password, string $project)
     {
-        $client = new Client();
-        $client->login(EX_GD_USERNAME, EX_GD_PASSWORD);
-        $this->cleanUpProject($client, EX_GD_PROJECT);
+        $host = 'https://' . $hostName;
+        $client = new Client($host);
+        $client->login($username, $password);
+        $this->cleanUpProject($client, $project);
         $client->getProjectModel()->updateProject(
-            EX_GD_PROJECT,
+            $project,
             json_decode(file_get_contents(__DIR__.'/data/model.json'), true)
         );
-        $this->loadData($client, EX_GD_PROJECT);
-        $report1 = $this->createReport($client, EX_GD_PROJECT);
-        $report2 = $this->createReport($client, EX_GD_PROJECT);
+        $dirName = $this->prepareWebDav($host, $username, $password);
+        $client->getDatasets()->loadData($project, $dirName);
+        $report1 = $this->createReport($client, $project);
+        $report2 = $this->createReport($client, $project);
 
         $dir = sys_get_temp_dir() . '/' . uniqid();
         mkdir($dir);
         $app = new Extractor(
-            new Client(),
-            EX_GD_USERNAME,
-            EX_GD_PASSWORD,
+            new Client($host),
+            $username,
+            $password,
             $dir
         );
         $app->extract([$report1, $report2]);
@@ -119,14 +124,15 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         return $result['uri'];
     }
 
-    private function loadData(Client $client, $pid)
+    private function prepareWebDav($host, $username, $password)
     {
+        $uri = $host . '/gdc/uploads/';
         $dirName = uniqid();
-        $webDav = new WebDav(EX_GD_USERNAME, EX_GD_PASSWORD);
+        $webDav = new WebDav($username, $password, $uri);
         $webDav->createFolder($dirName);
         $webDav->upload(__DIR__.'/data/data.csv', $dirName);
         $webDav->upload(__DIR__.'/data/upload_info.json', $dirName);
-        $client->getDatasets()->loadData($pid, $dirName);
+        return $dirName;
     }
 
     private function cleanUpProject(Client $client, $pid)
@@ -163,5 +169,23 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             } catch (Exception $e) {
             }
         }
+    }
+
+    protected function hostDataProvider()
+    {
+        return [
+            [
+                EX_GD_HOST,
+                EX_GD_USERNAME,
+                EX_GD_PASSWORD,
+                EX_GD_PROJECT
+            ],
+            [
+                EX_GD_ALT_HOST,
+                EX_GD_ALT_USERNAME,
+                EX_GD_ALT_PASSWORD,
+                EX_GD_ALT_PROJECT
+            ]
+        ];
     }
 }
