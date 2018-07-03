@@ -32,6 +32,11 @@ if (!isset($config['parameters']['writer_id'])) {
     }
 }
 
+if (!isset($config['parameters']['host'])) {
+    // set default for old configs
+    $config['parameters']['host'] = 'secure.gooddata.com';
+}
+
 if (!isset($config['parameters']['reports'])) {
     print("Missing parameter 'reports'");
     exit(1);
@@ -67,8 +72,9 @@ try {
         $username = $config['parameters']['username'];
         $password = $config['parameters']['#password'];
     }
+    $url = 'https://' . $config['parameters']['host'];
     $app = new \Keboola\GoodDataExtractor\Extractor(
-        new \Keboola\GoodData\Client(),
+        new \Keboola\GoodData\Client($url),
         $username,
         $password,
         "{$arguments['data']}/out/tables"
