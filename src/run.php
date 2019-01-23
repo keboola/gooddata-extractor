@@ -5,6 +5,8 @@
  * @author Jakub Matejka <jakub@keboola.com>
  */
 
+use Keboola\GoodDataExtractor\Provisioning;
+
 set_error_handler(
     function ($errno, $errstr, $errfile, $errline, array $errcontext) {
         if (0 === error_reporting()) {
@@ -25,7 +27,7 @@ if (!isset($arguments['data'])) {
 }
 $config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
 
-if (!isset($config['parameters']['writer_id'])) {
+if (!isset($config['parameters']['pid']) && !isset($config['parameters']['writer_id'])) {
     if (!isset($config['parameters']['username']) || !isset($config['parameters']['#password'])) {
         print("Missing either parameter 'writer_id' or 'username' and '#password'");
         exit(1);
@@ -55,7 +57,18 @@ if (!file_exists("{$arguments['data']}/out/tables")) {
 }
 
 try {
-    if (isset($config['parameters']['writer_id']) && !empty($config['parameters']['writer_id'])) {
+    if (!empty($config['parameters']['pid'])) {
+        $storage = new \Keboola\StorageApi\Client([
+            'url' => getenv('KBC_URL'),
+            'token' => getenv('KBC_TOKEN'),
+        ]);
+        $provisioningUrl = Provisioning::getBaseUri($storage);
+        $provisioning = new Provisioning($provisioningUrl, getenv('KBC_TOKEN'));
+
+        $credentials = $provisioning->getCredentials($config['parameters']['pid']);
+        $username = $credentials['login'];
+        $password = $credentials['password'];
+    } elseif (isset($config['parameters']['writer_id']) && !empty($config['parameters']['writer_id'])) {
         $writer = new \Keboola\GoodDataExtractor\Writer(
             new \Keboola\GoodDataExtractor\WriterClient(),
             KBC_TOKEN

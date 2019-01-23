@@ -35,7 +35,7 @@ class ExtractorTest extends \PHPUnit_Framework_TestCase
             return $reports;
         });
         $client->method('getToFile')->willReturn('filePath');
-        $extractor = new Extractor($client, 'user', 'pass', 'folder', 'bucket');
+        $extractor = new Extractor($client, 'user', 'pass', 'folder');
         $extractor->extract(['/gdc/md/report']);
     }
 }

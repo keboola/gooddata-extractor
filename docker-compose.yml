@@ -8,3 +8,11 @@ services:
     tty: true
     stdin_open: true
     command: ./tests.sh
+    volumes:
+      - ./:/code
+    working_dir: /code
+    environment:
+      - KBC_URL
+      - KBC_TOKEN
+      - GD_PID
+      - GD_PROVISIONING_URL
