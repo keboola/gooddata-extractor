@@ -7,17 +7,22 @@ services:
 
 before_script:
   - docker -v
-  - docker-compose -v
-  - docker-compose build tests
+  - docker build -t keboola/ex-gooddata .
+  - docker run --rm  keboola/ex-gooddata composer install
+  - docker run --rm  keboola/ex-gooddata composer phpcs
 
 script:
   - >
-    docker-compose run
-    --rm
-    -e EX_GD_USERNAME=$EX_GD_USERNAME
-    -e EX_GD_PASSWORD=$EX_GD_PASSWORD
-    -e EX_GD_PROJECT=$EX_GD_PROJECT
-    tests
+    docker run --rm
+    -e "EX_GD_USERNAME=${EX_GD_USERNAME}"
+    -e "EX_GD_PASSWORD=${EX_GD_PASSWORD}"
+    -e "EX_GD_PROJECT=${EX_GD_PROJECT}"
+    -e GD_PROVISIONING_PID
+    -e GD_PROVISIONING_URL
+    -e KBC_TOKEN
+    -e KBC_URL
+    keboola/ex-gooddata composer test
+
 after_success:
   - docker images
 

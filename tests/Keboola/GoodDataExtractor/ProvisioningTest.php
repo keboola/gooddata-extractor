@@ -17,7 +17,7 @@ class ProvisioningTest extends \PHPUnit_Framework_TestCase
     public function testGetCredentials()
     {
         $provisioning = new Provisioning(getenv('GD_PROVISIONING_URL'), getenv('KBC_TOKEN'));
-        $credentials = $provisioning->getCredentials(getenv('GD_PID'));
+        $credentials = $provisioning->getCredentials(getenv('GD_PROVISIONING_PID'));
         $this->assertArrayHasKey('login', $credentials);
         $this->assertNotEmpty($credentials['login']);
         $this->assertArrayHasKey('password', $credentials);
