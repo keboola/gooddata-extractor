@@ -27,11 +27,10 @@ if (!isset($arguments['data'])) {
 }
 $config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
 
-if (!isset($config['parameters']['pid']) && !isset($config['parameters']['writer_id'])) {
-    if (!isset($config['parameters']['username']) || !isset($config['parameters']['#password'])) {
-        print("Missing either parameter 'writer_id' or 'username' and '#password'");
-        exit(1);
-    }
+if (!isset($config['parameters']['pid']) && !isset($config['parameters']['writer_id'])
+    && (!isset($config['parameters']['username']) || !isset($config['parameters']['#password']))) {
+    print("Missing either parameter 'writer_id', 'pid' or 'username' and '#password'");
+    exit(1);
 }
 
 if (!isset($config['parameters']['reports'])) {
