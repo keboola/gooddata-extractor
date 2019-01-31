@@ -9,12 +9,15 @@ KBC Docker app for extracting reports from GoodData.
 
 ## Configuration
 
-You can either directly specify GoodData credentials or id of existing GoodData writer whose credentials will be used.
+You can either directly specify GoodData credentials (`username` and `#password`) or `pid` of a GoodData project which is registered in GoodData Provisioning. In that case the Provisioning generates temporary credentials and passes them to the Extractor during each job.
+
+There is also a legacy option to specify `writer_id`, i.e. id of configuration of the deprecated version of GoodData Writer. In that case the Extractor gets credentials directly from the Writer's configuration. 
 
 - **parameters**:
-    - **writer_id** - Id of existing writer whose credentials will be used
     - **username** - GoodData username
     - **#password** - GoodData password, encrypted by KBC
+    - **pid** - Pid of GoodData project if it is registered in Provisioning
+    - **writer_id** - Id of existing writer whose credentials will be used (*Deprecated*)
     - **bucket** - Name of bucket where the data will be saved
     - **reports** - Array of report uris to download
     
@@ -81,6 +84,10 @@ For integration testing you have to prepare a project in GoodData. Please note t
 
 Run `phpunit` with these env variables
 
-- **EX_GD_USERNAME**
-- **EX_GD_PASSWORD**
-- **EX_GD_PROJECT** - GoodData project id
+- **EX_GD_USERNAME** - credentials to a user
+- **EX_GD_PASSWORD** - credentials to a user
+- **EX_GD_PROJECT** - Id of a project accessible by the user 
+- **GD_PROVISIONING_PID** - Id of a project provided by Provisioning
+- **GD_PROVISIONING_URL** - Url of Provisioning instance (i.e. `https://gooddata-provisioning.keboola.com`)
+- **KBC_TOKEN** - Storage token used for auth in the Provisioning
+- **KBC_URL** - Url of Connection instance (i.e. `https://connection.keboola.com`)
