@@ -12,7 +12,7 @@ use Keboola\GoodData\Exception;
 use Keboola\GoodData\WebDav;
 use Keboola\GoodDataExtractor\Extractor;
 
-class IntegrationTest extends \PHPUnit_Framework_TestCase
+class IntegrationTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider hostDataProvider

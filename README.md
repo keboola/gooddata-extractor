@@ -64,15 +64,17 @@ If you want to run this app standalone:
 3. Install composer: `curl -s http://getcomposer.org/installer | php`
 4. Install packages: `php composer.phar install`
 5. Create folder `data`
-6. Create file `data/config.yml` with configuration, e.g.:
+6. Create file `data/config.json` with configuration, e.g.:
 
     ```
-    parameters:
-      username:
-      password:
-      bucket: in.c-ex-gooddata
-      reports:
-        ...
+    {
+        "parameters": {
+            "username": "",
+            "password": "",
+            "bucket": "in.c-ex-gooddata",
+            "reports": []
+        }
+    }
     ```
 7. Run: `php src/run.php --data=./data`
 8. Data tables will be saved to directory `data/out/tables`

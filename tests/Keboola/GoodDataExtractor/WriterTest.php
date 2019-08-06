@@ -11,7 +11,7 @@ use Keboola\GoodDataExtractor\Exception;
 use Keboola\GoodDataExtractor\Writer;
 use Keboola\GoodDataExtractor\WriterClient;
 
-class WriterTest extends \PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit\Framework\TestCase
 {
     public function testWriterCredentialsSuccess()
     {
