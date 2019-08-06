@@ -11,7 +11,7 @@ use Keboola\GoodData\Client;
 use Keboola\GoodData\Reports;
 use Keboola\GoodDataExtractor\Extractor;
 
-class ExtractorTest extends \PHPUnit_Framework_TestCase
+class ExtractorTest extends \PHPUnit\Framework\TestCase
 {
     public function testExtractor()
     {

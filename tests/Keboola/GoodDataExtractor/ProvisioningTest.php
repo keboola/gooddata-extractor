@@ -3,7 +3,7 @@ namespace Keboola\GoodDataExtractor\Test;
 
 use Keboola\GoodDataExtractor\Provisioning;
 
-class ProvisioningTest extends \PHPUnit_Framework_TestCase
+class ProvisioningTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetBaseUri()
     {

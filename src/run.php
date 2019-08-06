@@ -25,7 +25,7 @@ if (!isset($arguments['data'])) {
     print "Data folder not set.";
     exit(1);
 }
-$config = \Symfony\Component\Yaml\Yaml::parse(file_get_contents($arguments['data'] . "/config.yml"));
+$config = \GuzzleHttp\json_decode(file_get_contents($arguments['data'] . "/config.json"), true);
 
 if (!isset($config['parameters']['pid']) && !isset($config['parameters']['writer_id'])
     && (!isset($config['parameters']['username']) || !isset($config['parameters']['#password']))) {
