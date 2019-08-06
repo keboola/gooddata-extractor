@@ -89,6 +89,11 @@ Run `phpunit` with these env variables
 - **EX_GD_USERNAME** - credentials to a user
 - **EX_GD_PASSWORD** - credentials to a user
 - **EX_GD_PROJECT** - Id of a project accessible by the user 
+- **EX_GD_HOST** - Host of GoodData backend (`https://secure.gooddata.com`)
+- **EX_GD_ALT_USERNAME** - credentials to a user from alternate backend
+- **EX_GD_ALT_PASSWORD** - credentials to a user from alternate backend
+- **EX_GD_ALT_PROJECT** - Id of a project accessible by the user from alternate backend
+- **EX_GD_ALT_HOST** - Host of alternate GoodData backend (`https://gd-wl-dev.keboola.com`)
 - **GD_PROVISIONING_PID** - Id of a project provided by Provisioning
 - **GD_PROVISIONING_URL** - Url of Provisioning instance (i.e. `https://gooddata-provisioning.keboola.com`)
 - **KBC_TOKEN** - Storage token used for auth in the Provisioning

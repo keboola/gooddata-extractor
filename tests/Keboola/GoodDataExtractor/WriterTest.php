@@ -54,5 +54,6 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         } catch (Exception $e) {
             // ok
         }
+        $this->assertTrue(true);
     }
 }

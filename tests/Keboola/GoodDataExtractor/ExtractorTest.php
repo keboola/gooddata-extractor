@@ -37,5 +37,6 @@ class ExtractorTest extends \PHPUnit\Framework\TestCase
         $client->method('getToFile')->willReturn('filePath');
         $extractor = new Extractor($client, 'user', 'pass', 'folder');
         $extractor->extract(['/gdc/md/report']);
+        $this->assertTrue(true);
     }
 }

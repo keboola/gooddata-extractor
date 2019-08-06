@@ -171,7 +171,7 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    protected function hostDataProvider()
+    public function hostDataProvider()
     {
         return [
             [
