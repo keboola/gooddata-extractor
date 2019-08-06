@@ -94,6 +94,9 @@ try {
     $app->extract($config['parameters']['reports']);
 
     exit(0);
+} catch (\Keboola\GoodData\Exception $e) {
+    print $e->getMessage();
+    exit(1);
 } catch (\Keboola\GoodDataExtractor\Exception $e) {
     print $e->getMessage();
     exit(1);
