@@ -25,7 +25,7 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $this->cleanUpProject($client, $project);
         $client->getProjectModel()->updateProject(
             $project,
-            json_decode(file_get_contents(__DIR__.'/data/model.json'), true)
+            json_decode(file_get_contents(__DIR__ . '/data/model.json'), true)
         );
         $dirName = $this->prepareWebDav($host, $username, $password);
         $client->getDatasets()->loadData($project, $dirName);
@@ -44,7 +44,7 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
 
         $reportId1 = substr($report1, strrpos($report1, '/') + 1);
         $reportId2 = substr($report2, strrpos($report2, '/') + 1);
-        $sourceFile = file(__DIR__.'/data/data.csv');
+        $sourceFile = file(__DIR__ . '/data/data.csv');
 
         $this->assertFileExists("$dir/$reportId1.csv");
         $file1 = file("$dir/$reportId1.csv");
@@ -130,8 +130,8 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $dirName = uniqid();
         $webDav = new WebDav($username, $password, $uri);
         $webDav->createFolder($dirName);
-        $webDav->upload(__DIR__.'/data/data.csv', $dirName);
-        $webDav->upload(__DIR__.'/data/upload_info.json', $dirName);
+        $webDav->upload(__DIR__ . '/data/data.csv', $dirName);
+        $webDav->upload(__DIR__ . '/data/upload_info.json', $dirName);
         return $dirName;
     }
 

@@ -1,107 +1,33 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
 
-use Keboola\GoodDataExtractor\Provisioning;
+declare(strict_types=1);
 
-set_error_handler(
-    function ($errno, $errstr, $errfile, $errline, array $errcontext) {
-        if (0 === error_reporting()) {
-            return false;
-        }
-        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    }
-);
+require __DIR__ . '/../vendor/autoload.php';
 
-defined('KBC_URL') || define('KBC_URL', getenv('KBC_URL')? getenv('KBC_URL') : 'https://connection.keboola.com');
-defined('KBC_TOKEN') || define('KBC_TOKEN', getenv('KBC_TOKEN')? getenv('KBC_TOKEN') : 'token');
-
-require_once(dirname(__FILE__) . "/../vendor/autoload.php");
-$arguments = getopt("d::", array("data::"));
-if (!isset($arguments['data'])) {
-    print "Data folder not set.";
-    exit(1);
-}
-$config = \GuzzleHttp\json_decode(file_get_contents($arguments['data'] . "/config.json"), true);
-
-if (!isset($config['parameters']['pid']) && !isset($config['parameters']['writer_id'])
-    && (!isset($config['parameters']['username']) || !isset($config['parameters']['#password']))) {
-    print("Missing either parameter 'writer_id', 'pid' or 'username' and '#password'");
-    exit(1);
-}
-
-if (!isset($config['parameters']['host'])) {
-    // set default for old configs
-    $config['parameters']['host'] = 'secure.gooddata.com';
-}
-
-if (!isset($config['parameters']['reports'])) {
-    print("Missing parameter 'reports'");
-    exit(1);
-}
-
-if (!is_array($config['parameters']['reports'])) {
-    print "Parameter 'reports' has to be array";
-    exit(1);
-}
-
-if (!count($config['parameters']['reports'])) {
-    print "Parameter 'reports' is empty";
-    exit(1);
-}
-
-if (!file_exists("{$arguments['data']}/out")) {
-    mkdir("{$arguments['data']}/out");
-}
-if (!file_exists("{$arguments['data']}/out/tables")) {
-    mkdir("{$arguments['data']}/out/tables");
-}
-
+$logger = new \Keboola\Component\Logger();
 try {
-    if (!empty($config['parameters']['pid'])) {
-        $storage = new \Keboola\StorageApi\Client([
-            'url' => getenv('KBC_URL'),
-            'token' => getenv('KBC_TOKEN'),
-        ]);
-        $provisioningUrl = Provisioning::getBaseUri($storage);
-        $provisioning = new Provisioning($provisioningUrl, getenv('KBC_TOKEN'));
-
-        $credentials = $provisioning->getCredentials($config['parameters']['pid']);
-        $username = $credentials['login'];
-        $password = $credentials['password'];
-    } elseif (isset($config['parameters']['writer_id']) && !empty($config['parameters']['writer_id'])) {
-        $writer = new \Keboola\GoodDataExtractor\Writer(
-            new \Keboola\GoodDataExtractor\WriterClient(),
-            KBC_TOKEN
-        );
-        $creds = $writer->getUserCredentials($config['parameters']['writer_id']);
-        $username = $creds['username'];
-        $password = $creds['password'];
-    } else {
-        $username = $config['parameters']['username'];
-        $password = $config['parameters']['#password'];
-    }
-    $url = 'https://' . $config['parameters']['host'];
-    $app = new \Keboola\GoodDataExtractor\Extractor(
-        new \Keboola\GoodData\Client($url),
-        $username,
-        $password,
-        "{$arguments['data']}/out/tables"
-    );
-    $app->extract($config['parameters']['reports']);
-
+    $app = new \Keboola\GoodDataExtractor\Component($logger);
+    $app->execute();
     exit(0);
-} catch (\Keboola\GoodData\Exception $e) {
-    print $e->getMessage();
-    exit(1);
-} catch (\Keboola\GoodDataExtractor\Exception $e) {
-    print $e->getMessage();
-    exit(1);
-} catch (\Exception $e) {
-    print $e->getMessage();
-    print $e->getTraceAsString();
+} catch (\Throwable $e) {
+    if (
+        $e instanceof \Keboola\Component\UserException ||
+        $e instanceof \Keboola\GoodData\Exception ||
+        $e instanceof \Keboola\GoodDataExtractor\Exception
+    ) {
+        $logger->error($e->getMessage());
+        exit(1);
+    }
+
+    $logger->critical(
+        get_class($e) . ':' . $e->getMessage(),
+        [
+            'errFile' => $e->getFile(),
+            'errLine' => $e->getLine(),
+            'errCode' => $e->getCode(),
+            'errTrace' => $e->getTraceAsString(),
+            'errPrevious' => $e->getPrevious() ? get_class($e->getPrevious()) : '',
+        ]
+    );
     exit(2);
 }
