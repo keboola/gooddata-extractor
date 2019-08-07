@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Keboola\GoodDataExtractor\Tests\Functional;
+namespace Keboola\GoodDataExtractor\Test\Functional;
 
 use Keboola\DatadirTests\AbstractDatadirTestCase;
 use Keboola\DatadirTests\DatadirTestSpecification;
@@ -14,23 +14,17 @@ class DatadirTest extends AbstractDatadirTestCase
 
     public function testRun(): void
     {
-        foreach (['EX_GD_USERNAME', 'EX_GD_PASSWORD', 'EX_GD_PROJECT'] as $env) {
-            if (getenv($env) === false) {
-                throw new \Exception("$env not set in env.");
-            }
-        }
-
         $client = new Client();
-        $client->login(getenv('EX_GD_USERNAME'), getenv('EX_GD_PASSWORD'));
-        $reportUri = IntegrationTest::createReport($client, getenv('EX_GD_PROJECT'));
+        $client->login(EX_GD_USERNAME, EX_GD_PASSWORD);
+        $reportUri = IntegrationTest::createReport($client, EX_GD_PROJECT);
         $reportId = substr($reportUri, strrpos($reportUri, '/') + 1);
 
         $config = [
             'action' => 'run',
             'parameters' => [
-                "username" => getenv('EX_GD_USERNAME'),
-                "#password" => getenv('EX_GD_PASSWORD'),
-                "reports" => [$reportUri],
+                'username' => EX_GD_USERNAME,
+                '#password' => EX_GD_PASSWORD,
+                'reports' => [$reportUri],
             ],
         ];
 
@@ -46,6 +40,7 @@ class DatadirTest extends AbstractDatadirTestCase
         $this->assertMatchesSpecification($specification, $process, $tempDatadir->getTmpFolder());
         $this->assertFileExists($tempDatadir->getTmpFolder() . "/out/tables/$reportId.csv");
         $csv = file($tempDatadir->getTmpFolder() . "/out/tables/$reportId.csv");
+        $this->assertNotFalse($csv);
         $this->assertEquals('"Id","Name"', trim($csv[0]));
     }
 }

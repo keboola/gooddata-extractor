@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Keboola\GoodDataExtractor;
 
 use GuzzleHttp\Exception\ClientException;
@@ -14,7 +17,7 @@ class Provisioning
     /** @var \GuzzleHttp\Client */
     protected $client;
 
-    public function __construct($baseUri, $token)
+    public function __construct(string $baseUri, string $token)
     {
         $this->baseUri = $baseUri;
         $this->token = $token;
@@ -26,7 +29,7 @@ class Provisioning
         ]);
     }
 
-    public function getCredentials($pid)
+    public function getCredentials(string $pid): array
     {
         try {
             $res = $this->client->request('GET', "{$this->baseUri}/projects/{$pid}/credentials", [
@@ -34,19 +37,23 @@ class Provisioning
                     'X-StorageApi-Token' => $this->token,
                 ],
             ]);
-            return json_decode($res->getBody(), true);
+            return json_decode((string) $res->getBody(), true);
         } catch (ClientException $e) {
-            throw new Exception($e->getResponse()->getStatusCode() == 401
+            $response = $e->getResponse();
+            if (!$response) {
+                throw new Exception('Error from Provisioning: ' . $e->getMessage());
+            }
+            throw new Exception($response->getStatusCode() === 401
                 ? 'Invalid Storage Token'
-                : 'User Error from Provisioning: ' . $e->getResponse()->getBody());
+                : 'User Error from Provisioning: ' . $response->getBody());
         }
     }
 
-    public static function getBaseUri(Client $storage)
+    public static function getBaseUri(Client $storage): string
     {
         $storageData = $storage->apiGet('storage');
         foreach ($storageData['services'] as $service) {
-            if ($service['id'] == 'gooddata-provisioning') {
+            if ($service['id'] === 'gooddata-provisioning') {
                 return $service['url'];
             }
         }

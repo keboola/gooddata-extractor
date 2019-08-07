@@ -1,0 +1,20 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+parameters:
+    bootstrap: %rootDir%/../../../tests/bootstrap.php
+    dynamicConstantNames:
+        - EX_GD_PASSWORD
+        - EX_GD_USERNAME
+        - EX_GD_PROJECT
+        - EX_GD_HOST
+        - EX_GD_ALT_HOST
+        - EX_GD_ALT_USERNAME
+        - EX_GD_ALT_PASSWORD
+        - EX_GD_ALT_PROJECT
+        - KBC_URL
+        - KBC_TOKEN
+        - GD_PROVISIONING_URL
+        - GD_PROVISIONING_PID
+    excludes_analyse:
+        - %rootDir%/../../../src/Keboola/GoodDataExtractor/ConfigDefinition.php

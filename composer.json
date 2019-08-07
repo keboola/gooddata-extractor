@@ -18,9 +18,12 @@
     "keboola/storage-api-client": "^10.6"
   },
   "require-dev": {
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "keboola/coding-standard": "^8.0",
     "keboola/datadir-tests": "^2.3",
-    "phpunit/phpunit": "^7",
-    "squizlabs/php_codesniffer": "^3.4"
+    "phpstan/phpstan-phpunit": "^0.11.2",
+    "phpstan/phpstan-shim": "^0.11.12",
+    "phpunit/phpunit": "^7"
   },
   "minimum-stability": "stable",
   "autoload": {
@@ -35,8 +38,8 @@
     }
   },
   "scripts": {
-    "test-phpunit": "phpunit --bootstrap tests/bootstrap.php --process-isolation --fail-on-warning --stop-on-failure --testsuite main --default-time-limit=600 tests/phpunit",
-    "test-datadir": "phpunit --bootstrap tests/bootstrap.php --process-isolation --fail-on-warning --stop-on-failure --testsuite functional tests/functional",
+    "test-phpunit": "phpunit --bootstrap tests/bootstrap.php --fail-on-warning --stop-on-failure --testsuite main --default-time-limit=600 tests/phpunit",
+    "test-datadir": "phpunit --bootstrap tests/bootstrap.php --fail-on-warning --stop-on-failure --testsuite functional tests/functional",
     "test": [
       "@test-phpunit",
       "@test-datadir"

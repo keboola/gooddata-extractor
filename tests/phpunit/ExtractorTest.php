@@ -1,9 +1,6 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
+
+declare(strict_types=1);
 
 namespace Keboola\GoodDataExtractor\Test;
 
@@ -13,7 +10,7 @@ use Keboola\GoodDataExtractor\Extractor;
 
 class ExtractorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testExtractor()
+    public function testExtractor(): void
     {
         $client = $this->createMock(Client::class);
         $client->method('get')->willReturn(json_decode('{
