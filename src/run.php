@@ -10,15 +10,14 @@ try {
     $app->execute();
     exit(0);
 } catch (\Throwable $e) {
-    if (
-        $e instanceof \Keboola\Component\UserException ||
-        $e instanceof \Keboola\GoodData\Exception ||
-        $e instanceof \Keboola\GoodDataExtractor\Exception
-    ) {
+    if ($e instanceof \Keboola\Component\UserException
+        || $e instanceof \Keboola\GoodData\Exception
+        || $e instanceof \Keboola\GoodDataExtractor\Exception) {
         $logger->error($e->getMessage());
         exit(1);
     }
 
+    $previous = $e->getPrevious();
     $logger->critical(
         get_class($e) . ':' . $e->getMessage(),
         [
@@ -26,7 +25,7 @@ try {
             'errLine' => $e->getLine(),
             'errCode' => $e->getCode(),
             'errTrace' => $e->getTraceAsString(),
-            'errPrevious' => $e->getPrevious() ? get_class($e->getPrevious()) : '',
+            'errPrevious' => $previous ? get_class($previous) : '',
         ]
     );
     exit(2);

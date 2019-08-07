@@ -1,9 +1,6 @@
-<?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
+<?php /** @noinspection PhpParamsInspection */
+
+declare(strict_types=1);
 
 namespace Keboola\GoodDataExtractor\Test;
 
@@ -13,9 +10,16 @@ use Keboola\GoodDataExtractor\WriterClient;
 
 class WriterTest extends \PHPUnit\Framework\TestCase
 {
-    public function testWriterCredentialsSuccess()
+    /**
+     * @return WriterClient&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function createWriterClientMock(): \PHPUnit\Framework\MockObject\MockObject
     {
-        $client = $this->createMock(WriterClient::class);
+        return $this->createMock(WriterClient::class);
+    }
+    public function testWriterCredentialsSuccess(): void
+    {
+        $client = $this->createWriterClientMock();
         $client->method('get')->willReturn(json_decode('{
 	"id": "dev",
 	"status": "ready",
@@ -33,9 +37,9 @@ class WriterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('somepassword', $res['password']);
     }
 
-    public function testWriterCredentialsMissing()
+    public function testWriterCredentialsMissing(): void
     {
-        $client = $this->createMock(WriterClient::class);
+        $client = $this->createWriterClientMock();
         $client->method('get')->willReturn(json_decode('{
 	"id": "dev",
 	"status": "ready",

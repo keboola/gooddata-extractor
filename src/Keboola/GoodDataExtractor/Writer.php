@@ -1,27 +1,25 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
-namespace Keboola\GoodDataExtractor;
 
-use GuzzleHttp\Client;
+declare(strict_types=1);
+
+namespace Keboola\GoodDataExtractor;
 
 class Writer
 {
-    /** @var Client  */
+    /** @var WriterClient  */
     private $client;
-    private $baseUri = "https://syrup.keboola.com/gooddata-writer";
+    /** @var string  */
+    private $baseUri = 'https://syrup.keboola.com/gooddata-writer';
+    /** @var string  */
     private $token;
 
-    public function __construct(WriterClient $client, $token)
+    public function __construct(WriterClient $client, string $token)
     {
         $this->client = $client;
         $this->token = $token;
     }
 
-    public function getUserCredentials($writerId)
+    public function getUserCredentials(string $writerId): array
     {
         $response = $this->client->get("{$this->baseUri}/v2/$writerId?include=user", $this->token);
         if (!isset($response['user']['email'])) {
@@ -32,7 +30,7 @@ class Writer
         }
         return [
             'username' => $response['user']['email'],
-            'password' => $response['user']['password']
+            'password' => $response['user']['password'],
         ];
     }
 }

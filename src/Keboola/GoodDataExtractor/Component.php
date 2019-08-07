@@ -20,17 +20,19 @@ class Component extends BaseComponent
             mkdir($this->getDataDir() . '/out/tables');
         }
 
-        defined('KBC_URL') || define('KBC_URL', getenv('KBC_URL')? getenv('KBC_URL') : 'https://connection.keboola.com');
-        defined('KBC_TOKEN') || define('KBC_TOKEN', getenv('KBC_TOKEN')? getenv('KBC_TOKEN') : 'token');
+        defined('KBC_URL') || define('KBC_URL', getenv('KBC_URL')
+            ? getenv('KBC_URL') : 'https://connection.keboola.com');
+        defined('KBC_TOKEN') || define('KBC_TOKEN', getenv('KBC_TOKEN')
+            ? getenv('KBC_TOKEN') : 'token');
 
         if ($config->getPid()) {
             // Extractor will get credentials from Provisioning
             $storage = new \Keboola\StorageApi\Client([
-                'url' => getenv('KBC_URL'),
-                'token' => getenv('KBC_TOKEN'),
+                'url' => KBC_URL,
+                'token' => KBC_TOKEN,
             ]);
             $provisioningUrl = Provisioning::getBaseUri($storage);
-            $provisioning = new Provisioning($provisioningUrl, getenv('KBC_TOKEN'));
+            $provisioning = new Provisioning($provisioningUrl, KBC_TOKEN);
 
             $credentials = $provisioning->getCredentials($config->getPid());
             $username = $credentials['login'];

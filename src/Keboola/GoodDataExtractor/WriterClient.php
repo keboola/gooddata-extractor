@@ -1,9 +1,7 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
+
+declare(strict_types=1);
+
 namespace Keboola\GoodDataExtractor;
 
 use GuzzleHttp\Exception\ClientException;
@@ -14,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class WriterClient
 {
+    /** @var \GuzzleHttp\Client  */
     protected $client;
 
     public function __construct()
@@ -22,8 +21,8 @@ class WriterClient
 
         /** @noinspection PhpUnusedParameterInspection */
         $handlerStack->push(Middleware::retry(
-            function ($retries, RequestInterface $request, ResponseInterface $response = null, $error = null) {
-                return $response && $response->getStatusCode() == 503;
+            function ($retries, RequestInterface $request, ?ResponseInterface $response = null, ?string $error = null) {
+                return $response && $response->getStatusCode() === 503;
             },
             function ($retries) {
                 return rand(60, 600) * 1000;
@@ -31,7 +30,7 @@ class WriterClient
         ));
         /** @noinspection PhpUnusedParameterInspection */
         $handlerStack->push(Middleware::retry(
-            function ($retries, RequestInterface $request, ResponseInterface $response = null, $error = null) {
+            function ($retries, RequestInterface $request, ?ResponseInterface $response = null, ?string $error = null) {
                 if ($retries >= 10) {
                     return false;
                 } elseif ($response && $response->getStatusCode() > 499) {
@@ -48,23 +47,27 @@ class WriterClient
         ));
 
         $this->client = new \GuzzleHttp\Client([
-            'handler' => $handlerStack
+            'handler' => $handlerStack,
         ]);
     }
 
-    public function get($url, $token)
+    public function get(string $url, string $token): array
     {
         try {
             $res = $this->client->request('GET', $url, [
                 'headers' => [
-                    'X-StorageApi-Token' => $token
-                ]
+                    'X-StorageApi-Token' => $token,
+                ],
             ]);
-            return json_decode($res->getBody(), true);
+            return json_decode((string) $res->getBody(), true);
         } catch (ClientException $e) {
-            throw new Exception($e->getResponse()->getStatusCode() == 401
+            $response = $e->getResponse();
+            if (!$response) {
+                throw new Exception('Error from Provisioning: ' . $e->getMessage());
+            }
+            throw new Exception($response->getStatusCode() === 401
                 ? 'Invalid StorageApi Token'
-                : 'User Error from StorageApi: ' . $e->getResponse()->getBody());
+                : 'User Error from StorageApi: ' . $response->getBody());
         }
     }
 }

@@ -1,9 +1,7 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
+
+declare(strict_types=1);
+
 namespace Keboola\GoodDataExtractor;
 
 class Exception extends \Exception

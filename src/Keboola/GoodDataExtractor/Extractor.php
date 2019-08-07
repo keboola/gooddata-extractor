@@ -1,9 +1,7 @@
 <?php
-/**
- * @package gooddata-extractor
- * @copyright Keboola
- * @author Jakub Matejka <jakub@keboola.com>
- */
+
+declare(strict_types=1);
+
 namespace Keboola\GoodDataExtractor;
 
 use Keboola\GoodData\Client;
@@ -13,19 +11,20 @@ class Extractor
 {
     /** @var Client  */
     protected $gdClient;
+    /** @var string  */
     protected $folder;
 
-    public function __construct(Client $gdClient, $username, $password, $folder)
+    public function __construct(Client $gdClient, string $username, string $password, string $folder)
     {
         $this->gdClient = $gdClient;
         $this->gdClient->login($username, $password);
         $this->folder = $folder;
     }
 
-    public function extract(array $reports)
+    public function extract(array $reports): void
     {
         foreach ($reports as $uri) {
-            if (substr($uri, 0, 8) != '/gdc/md/') {
+            if (substr($uri, 0, 8) !== '/gdc/md/') {
                 throw new Exception("Report $uri is not valid report uri");
             }
             $pid = explode('/', substr($uri, 8))[0];
@@ -36,7 +35,7 @@ class Extractor
         }
     }
 
-    public function download($pid, $uri, $filename)
+    public function download(string $pid, string $uri, string $filename): void
     {
         try {
             $report = $this->gdClient->get($uri);
