@@ -55,7 +55,7 @@
     ],
     "build": [
       "@cs",
-      "@tests"
+      "@test"
     ],
     "ci": [
       "@composer validate --no-check-publish --no-check-all",

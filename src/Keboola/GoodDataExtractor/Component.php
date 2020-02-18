@@ -37,6 +37,7 @@ class Component extends BaseComponent
             $credentials = $provisioning->getCredentials($config->getPid());
             $username = $credentials['login'];
             $password = $credentials['password'];
+            $this->getLogger()->info('GoodData credentials obtained from Provisioning.');
         } elseif ($config->getWriterId()) {
             // Extractor will get credentials from Writer configuration (deprecated option)
             $writer = new \Keboola\GoodDataExtractor\Writer(
@@ -46,17 +47,21 @@ class Component extends BaseComponent
             $creds = $writer->getUserCredentials($config->getWriterId());
             $username = $creds['username'];
             $password = $creds['password'];
+            $this->getLogger()->info('GoodData credentials obtained directly from Writer.');
         } else {
             $username = $config->getCredentials()[0];
             $password = $config->getCredentials()[1];
+            $this->getLogger()->info('GoodData credentials obtained from configuration.');
         }
         $url = 'https://' . $config->getHost();
+        $this->getLogger()->info("GoodData backend: {$url}, username: {$username}");
         $app = new \Keboola\GoodDataExtractor\Extractor(
             new \Keboola\GoodData\Client($url),
             $username,
             $password,
             $this->getDataDir() . '/out/tables'
         );
+        $app->setLogger($this->getLogger());
         $app->extract($config->getReports());
     }
 
