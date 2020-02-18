@@ -37,7 +37,8 @@ class DatadirTest extends AbstractDatadirTestCase
         $tempDatadir = $this->getTempDatadir($specification);
         file_put_contents($tempDatadir->getTmpFolder() . '/config.json', \GuzzleHttp\json_encode($config));
         $process = $this->runScript($tempDatadir->getTmpFolder());
-        $this->assertMatchesSpecification($specification, $process, $tempDatadir->getTmpFolder());
+        $this->assertEmpty($process->getErrorOutput());
+        $this->assertEquals(0, $process->getExitCode());
         $this->assertFileExists($tempDatadir->getTmpFolder() . "/out/tables/$reportId.csv");
         $csv = file($tempDatadir->getTmpFolder() . "/out/tables/$reportId.csv");
         $this->assertNotFalse($csv);
