@@ -18,7 +18,6 @@ script:
     -e EX_GD_PASSWORD
     -e EX_GD_PROJECT
     -e EX_GD_HOST
-    -e EX_GD_REPORT_URI
     -e EX_GD_ALT_USERNAME
     -e EX_GD_ALT_PASSWORD
     -e EX_GD_ALT_PROJECT

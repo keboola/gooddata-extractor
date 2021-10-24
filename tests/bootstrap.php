@@ -14,9 +14,6 @@ defined('EX_GD_PROJECT') || define('EX_GD_PROJECT', getenv('EX_GD_PROJECT')
 defined('EX_GD_HOST') || define('EX_GD_HOST', getenv('EX_GD_HOST')
     ? getenv('EX_GD_HOST') : 'gd host');
 
-defined('EX_GD_REPORT_URI') || define('EX_GD_REPORT_URI', getenv('EX_GD_REPORT_URI')
-    ? getenv('EX_GD_REPORT_URI') : 'gd report uri');
-
 defined('EX_GD_ALT_USERNAME') || define('EX_GD_ALT_USERNAME', getenv('EX_GD_ALT_USERNAME')
     ? getenv('EX_GD_ALT_USERNAME') : 'gd alt username');
 
