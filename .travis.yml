@@ -23,10 +23,6 @@ script:
     -e EX_GD_ALT_PASSWORD
     -e EX_GD_ALT_PROJECT
     -e EX_GD_ALT_HOST
-    -e GD_PROVISIONING_PID
-    -e GD_PROVISIONING_URL
-    -e KBC_TOKEN
-    -e KBC_URL
     keboola/ex-gooddata composer test
 
 after_success:
