@@ -183,12 +183,6 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
                 EX_GD_PASSWORD,
                 EX_GD_PROJECT,
             ],
-            [
-                EX_GD_ALT_HOST,
-                EX_GD_ALT_USERNAME,
-                EX_GD_ALT_PASSWORD,
-                EX_GD_ALT_PROJECT,
-            ],
         ];
     }
 }

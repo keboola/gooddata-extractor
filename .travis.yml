@@ -18,10 +18,6 @@ script:
     -e EX_GD_PASSWORD
     -e EX_GD_PROJECT
     -e EX_GD_HOST
-    -e EX_GD_ALT_USERNAME
-    -e EX_GD_ALT_PASSWORD
-    -e EX_GD_ALT_PROJECT
-    -e EX_GD_ALT_HOST
     keboola/ex-gooddata composer test
 
 after_success:

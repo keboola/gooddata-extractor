@@ -16,7 +16,3 @@ services:
       - EX_GD_PROJECT
       - EX_GD_USERNAME
       - EX_GD_HOST
-      - EX_GD_ALT_USERNAME
-      - EX_GD_ALT_PASSWORD
-      - EX_GD_ALT_PROJECT
-      - EX_GD_ALT_HOST
