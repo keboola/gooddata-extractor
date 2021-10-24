@@ -27,11 +27,6 @@ class Config extends BaseConfig
         return $this->getValue(['parameters', 'host'], 'secure.gooddata.com');
     }
 
-    public function getPid(): string
-    {
-        return $this->getValue(['parameters', 'pid'], '');
-    }
-
     public function getCredentials(): array
     {
         $username = $this->getValue(['parameters', 'username'], '');
