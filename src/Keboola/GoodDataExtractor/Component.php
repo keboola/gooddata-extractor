@@ -38,16 +38,6 @@ class Component extends BaseComponent
             $username = $credentials['login'];
             $password = $credentials['password'];
             $this->getLogger()->info('GoodData credentials obtained from Provisioning.');
-        } elseif ($config->getWriterId()) {
-            // Extractor will get credentials from Writer configuration (deprecated option)
-            $writer = new \Keboola\GoodDataExtractor\Writer(
-                new \Keboola\GoodDataExtractor\WriterClient(),
-                KBC_TOKEN
-            );
-            $creds = $writer->getUserCredentials($config->getWriterId());
-            $username = $creds['username'];
-            $password = $creds['password'];
-            $this->getLogger()->info('GoodData credentials obtained directly from Writer.');
         } else {
             $username = $config->getCredentials()[0];
             $password = $config->getCredentials()[1];

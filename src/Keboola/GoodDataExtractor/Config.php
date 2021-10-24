@@ -14,8 +14,8 @@ class Config extends BaseConfig
     {
         parent::__construct($config, $configDefinition);
 
-        if (!$this->getPid() && !$this->getWriterId() && !count($this->getCredentials())) {
-            throw new UserException("Missing either parameter 'writer_id', 'pid' or "
+        if (!$this->getPid() && !count($this->getCredentials())) {
+            throw new UserException("Missing either parameter 'pid' or "
                 . "'username' and '#password' from configuration");
         }
         if (!count($this->getReports())) {
@@ -31,11 +31,6 @@ class Config extends BaseConfig
     public function getPid(): string
     {
         return $this->getValue(['parameters', 'pid'], '');
-    }
-
-    public function getWriterId(): string
-    {
-        return $this->getValue(['parameters', 'writer_id'], '');
     }
 
     public function getCredentials(): array
