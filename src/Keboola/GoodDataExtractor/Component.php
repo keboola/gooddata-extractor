@@ -20,29 +20,10 @@ class Component extends BaseComponent
             mkdir($this->getDataDir() . '/out/tables');
         }
 
-        defined('KBC_URL') || define('KBC_URL', getenv('KBC_URL')
-            ? getenv('KBC_URL') : 'https://connection.keboola.com');
-        defined('KBC_TOKEN') || define('KBC_TOKEN', getenv('KBC_TOKEN')
-            ? getenv('KBC_TOKEN') : 'token');
+        $username = $config->getCredentials()[0];
+        $password = $config->getCredentials()[1];
+        $this->getLogger()->info('GoodData credentials obtained from configuration.');
 
-        if ($config->getPid()) {
-            // Extractor will get credentials from Provisioning
-            $storage = new \Keboola\StorageApi\Client([
-                'url' => KBC_URL,
-                'token' => KBC_TOKEN,
-            ]);
-            $provisioningUrl = Provisioning::getBaseUri($storage);
-            $provisioning = new Provisioning($provisioningUrl, KBC_TOKEN);
-
-            $credentials = $provisioning->getCredentials($config->getPid());
-            $username = $credentials['login'];
-            $password = $credentials['password'];
-            $this->getLogger()->info('GoodData credentials obtained from Provisioning.');
-        } else {
-            $username = $config->getCredentials()[0];
-            $password = $config->getCredentials()[1];
-            $this->getLogger()->info('GoodData credentials obtained from configuration.');
-        }
         $url = 'https://' . $config->getHost();
         $this->getLogger()->info("GoodData backend: {$url}, username: {$username}");
         $app = new \Keboola\GoodDataExtractor\Extractor(

@@ -14,9 +14,8 @@ class Config extends BaseConfig
     {
         parent::__construct($config, $configDefinition);
 
-        if (!$this->getPid() && !count($this->getCredentials())) {
-            throw new UserException("Missing either parameter 'pid' or "
-                . "'username' and '#password' from configuration");
+        if (!count($this->getCredentials())) {
+            throw new UserException("Missing 'username' and '#password' from configuration");
         }
         if (!count($this->getReports())) {
             throw new UserException("Parameter 'reports' from configuration does not contain any report");
