@@ -14,7 +14,7 @@ class DatadirTest extends AbstractDatadirTestCase
 
     public function testRun(): void
     {
-        $client = new Client();
+        $client = new Client('https://' . EX_GD_HOST);
         $client->login(EX_GD_USERNAME, EX_GD_PASSWORD);
         $reportUri = IntegrationTest::createReport($client, EX_GD_PROJECT);
         $reportId = substr($reportUri, strrpos($reportUri, '/') + 1);
@@ -22,6 +22,7 @@ class DatadirTest extends AbstractDatadirTestCase
         $config = [
             'action' => 'run',
             'parameters' => [
+                'host' => EX_GD_HOST,
                 'username' => EX_GD_USERNAME,
                 '#password' => EX_GD_PASSWORD,
                 'reports' => [$reportUri],

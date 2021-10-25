@@ -14,9 +14,8 @@ class Config extends BaseConfig
     {
         parent::__construct($config, $configDefinition);
 
-        if (!$this->getPid() && !$this->getWriterId() && !count($this->getCredentials())) {
-            throw new UserException("Missing either parameter 'writer_id', 'pid' or "
-                . "'username' and '#password' from configuration");
+        if (!count($this->getCredentials())) {
+            throw new UserException("Missing 'username' and '#password' from configuration");
         }
         if (!count($this->getReports())) {
             throw new UserException("Parameter 'reports' from configuration does not contain any report");
@@ -26,16 +25,6 @@ class Config extends BaseConfig
     public function getHost(): string
     {
         return $this->getValue(['parameters', 'host'], 'secure.gooddata.com');
-    }
-
-    public function getPid(): string
-    {
-        return $this->getValue(['parameters', 'pid'], '');
-    }
-
-    public function getWriterId(): string
-    {
-        return $this->getValue(['parameters', 'writer_id'], '');
     }
 
     public function getCredentials(): array
