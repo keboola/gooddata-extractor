@@ -1,6 +1,6 @@
 # GoodData Extractor
 
-[![Build Status](https://travis-ci.org/keboola/gooddata-extractor.svg)](https://travis-ci.org/keboola/gooddata-extractor)
+[![Build Status](https://app.travis-ci.com/keboola/gooddata-extractor.svg?branch=master)](https://app.travis-ci.com/keboola/gooddata-extractor)
 [![Code Climate](https://codeclimate.com/github/keboola/gooddata-extractor/badges/gpa.svg)](https://codeclimate.com/github/keboola/gooddata-extractor)
 
 Application for extracting reports from GoodData.
