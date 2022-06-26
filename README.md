@@ -73,3 +73,7 @@ Run `phpunit` with these env variables
 - **EX_GD_PASSWORD** - credentials to a user
 - **EX_GD_PROJECT** - Id of a project accessible by the user 
 - **EX_GD_HOST** - Host of GoodData backend (`secure.gooddata.com`, no protocol!)
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
