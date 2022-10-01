@@ -86,11 +86,11 @@ jobs:
       -
         name: Run tests
         run: |
-          docker run --rm
-          -e EX_GD_USERNAME
-          -e EX_GD_PASSWORD
-          -e EX_GD_PROJECT
-          -e EX_GD_HOST
+          docker run --rm \
+          -e EX_GD_USERNAME \
+          -e EX_GD_PASSWORD \
+          -e EX_GD_PROJECT \
+          -e EX_GD_HOST \
           ${{env.APP_IMAGE}} \
           composer ci
 
