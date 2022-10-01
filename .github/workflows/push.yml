@@ -18,7 +18,7 @@ env:
   EX_GD_HOST: "keboola-fork-bomb.on.gooddata.com"
   EX_GD_USERNAME: "vlado+gdtest@keboola.com"
   EX_GD_PASSWORD: ${{ secrets.EX_GD_PASSWORD }}
-  EX_GD_PROJECT: "ag28gtyy397c4byeocn4r77ws1d2tit0"
+  EX_GD_PROJECT: "t5b17z4riow6hcxul7n3hb8k5fmrxjmv"
 
   # Test KBC project
   KBC_STORAGE_TOKEN: ${{ secrets.KBC_TOKEN }}
