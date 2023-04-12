@@ -7,6 +7,9 @@ namespace Keboola\GoodDataExtractor;
 use Keboola\GoodData\Client;
 use Keboola\GoodData\Exception as GoodDataException;
 use Psr\Log\LoggerInterface;
+use Retry\BackOff\ExponentialBackOffPolicy;
+use Retry\Policy\SimpleRetryPolicy;
+use Retry\RetryProxy;
 
 class Extractor
 {
@@ -46,7 +49,13 @@ class Extractor
             $reportId = substr($uri, strrpos($uri, '/') + 1);
             $filename = "{$this->folder}/{$reportId}.csv";
 
-            $this->download($pid, $uri, $filename);
+            $retryPolicy = new SimpleRetryPolicy(5, [Exception::class]);
+            $retryProxy = new RetryProxy($retryPolicy, new ExponentialBackOffPolicy(), $this->logger);
+            try {
+                $retryProxy->call([$this, 'download'], [$pid, $uri, $filename]);
+            } catch (Exception $e) {
+                throw new Exception("Failed to download report '{$uri}' after 5 retries", 400, $e);
+            }
         }
     }
 

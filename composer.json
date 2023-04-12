@@ -9,18 +9,19 @@
     }
   ],
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "ext-json": "*",
     "guzzlehttp/guzzle": "^6.2",
     "keboola/csv": "~1.1.3",
-    "keboola/gooddata-php-client": "^3.0",
+    "keboola/gooddata-php-client": "dev-ondra-update_log_package",
     "keboola/php-component": "^7.0",
+    "keboola/retry": "^0.5",
     "keboola/storage-api-client": "^10.6"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
     "keboola/coding-standard": "^8.0",
-    "keboola/datadir-tests": "^2.3",
+    "keboola/datadir-tests": "^3.0",
     "phpstan/phpstan-phpunit": "^0.11.2",
     "phpstan/phpstan-shim": "^0.11.12",
     "phpunit/phpunit": "^7"
